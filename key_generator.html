@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="img/HZ-icon.ico" rel="icon">
+    <title>Random Key Generator | Secure Key Creation Tool</title>
+    <meta name="description" content="Generate secure random keys instantly. Create unique, random alphanumeric keys with a single click. Perfect for passwords, API keys, and unique identifiers.">
+    <meta name="keywords" content="key generator, random key, password generator, unique key, API key generator, secure key">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com/key-generator">
+    <meta property="og:title" content="Random Key Generator">
+    <meta property="og:description" content="Generate secure random keys instantly. Create unique, random alphanumeric keys with a single click.">
+    <meta property="og:image" content="https://example.com/key-generator-og-image.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://example.com/key-generator">
+    <meta name="twitter:title" content="Random Key Generator">
+    <meta name="twitter:description" content="Generate secure random keys instantly. Create unique, random alphanumeric keys with a single click.">
+    <meta name="twitter:image" content="https://example.com/key-generator-og-image.png">
+
+    <link rel="canonical" href="https://example.com/key-generator">
+    <meta name="author" content="Your Company Name">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #f0f0f0;
+            line-height: 1.6;
+        }
+        #key {
+            background-color: white;
+            border: 2px solid #333;
+            padding: 10px;
+            margin: 20px 0;
+            word-break: break-all;
+            font-size: 18px;
+            user-select: all;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #copyButton {
+            background-color: #2196F3;
+        }
+        #copyButton:hover {
+            background-color: #1E88E5;
+        }
+        #copyStatus {
+            color: green;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .key-length-selector {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Random Key Generator</h1>
+    </header>
+    
+    <main>
+        <div class="key-length-selector">
+            <label for="keyLength">Key Length:</label>
+            <select id="keyLength">
+                <option value="16">16 characters</option>
+                <option value="32" selected>32 characters</option>
+                <option value="64">64 characters</option>
+            </select>
+        </div>
+
+        <div id="key" aria-live="polite"></div>
+        <div id="copyStatus" role="status">Copied to clipboard!</div>
+        
+        <div class="button-container">
+            <button onclick="generateKey()" aria-label="Generate New Key">Generate New Key</button>
+            <button id="copyButton" onclick="copyToClipboard()" aria-label="Copy Key to Clipboard">Copy Key</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>Generate unique and secure random keys for various purposes.</p>
+    </footer>
+
+    <script>
+        function generateKey(length = 32) {
+            // Get key length from selector
+            length = parseInt(document.getElementById('keyLength').value);
+
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            const charactersLength = characters.length;
+            
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            
+            document.getElementById('key').textContent = result;
+            
+            // Reset copy status when new key is generated
+            document.getElementById('copyStatus').style.opacity = '0';
+        }
+
+        function copyToClipboard() {
+            const keyElement = document.getElementById('key');
+            const keyText = keyElement.textContent;
+
+            // Use the Clipboard API
+            navigator.clipboard.writeText(keyText).then(() => {
+                // Show copy status
+                const copyStatus = document.getElementById('copyStatus');
+                copyStatus.style.opacity = '1';
+                
+                // Hide status after 2 seconds
+                setTimeout(() => {
+                    copyStatus.style.opacity = '0';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        // Generate key automatically when page loads
+        window.onload = generateKey;
+    </script>
+</body>
+</html>

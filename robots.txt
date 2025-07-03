@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /private/  # Replace with paths you want to restrict
+Allow: /
+
+Sitemap: https://hatimzh.live/sitemap.xml
